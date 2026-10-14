@@ -4,6 +4,7 @@ import { toApiError, wakeServer } from "../api/client";
 import { useAuth } from "../auth/AuthContext";
 import ErrorMessage from "../components/ErrorMessage";
 import LoadingOverlay from "../components/LoadingOverlay";
+import ThemeToggle from "../components/ThemeToggle";
 
 type Mode = "signin" | "register";
 
@@ -45,6 +46,7 @@ export default function LoginPage() {
 
   return (
     <div className="auth">
+      <ThemeToggle className="auth-theme" />
       {pending && <LoadingOverlay label={mode === "signin" ? "Signing in…" : "Creating your account…"} />}
       <div className="auth-panel">
         <div className="auth-brand">
