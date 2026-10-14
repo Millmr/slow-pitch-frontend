@@ -4,6 +4,7 @@ import { createGame, listGames } from "../api/games";
 import { getSeason } from "../api/teams";
 import { AvailabilityChip } from "../components/AvailabilityPicker";
 import ErrorMessage from "../components/ErrorMessage";
+import LeagueSection from "../components/LeagueSection";
 import LoadingState from "../components/LoadingState";
 import { formatDay, formatTime, playedGames, resultText, toLocalInputValue, upcomingGames } from "../lib/format";
 import { useAction, useApi } from "../lib/useApi";
@@ -13,7 +14,7 @@ import type { Game } from "../types";
 export default function SchedulePage() {
   const seasonId = Number(useParams().seasonId);
   const season = useApi(() => getSeason(seasonId), [seasonId]);
-  const { isManager } = useTrackTeam(season.data?.team, seasonId);
+  const { team, isManager } = useTrackTeam(season.data?.team, seasonId);
   const games = useApi(() => listGames(seasonId), [seasonId]);
 
   const all = games.data ?? [];
@@ -41,6 +42,8 @@ export default function SchedulePage() {
             <h2 className="section-title">Coming up</h2>
             {upcoming.length ? <GameList games={upcoming} /> : <p className="empty">No games scheduled.</p>}
           </section>
+
+          <LeagueSection seasonId={seasonId} teamName={team?.name ?? ""} isManager={isManager} onSynced={games.reload} />
 
           {isManager && <AddGame seasonId={seasonId} onAdded={games.reload} />}
 

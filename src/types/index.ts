@@ -38,6 +38,50 @@ export interface Season {
   start_date: string;
   end_date: string | null;
   is_active: boolean;
+  /** True when the season pulls its schedule from a league page. */
+  league_linked?: boolean;
+  league_synced_at?: string | null;
+}
+
+/** One row of the league standings (the coach column isn't kept). */
+export interface StandingRow {
+  place: string;
+  team: string;
+  wins: string;
+  losses: string;
+  games_back: string;
+  games_played: string;
+  pct: string;
+  streak: string;
+  is_us: boolean;
+}
+
+export interface League {
+  season: number;
+  linked: boolean;
+  url: string;
+  team_name: string;
+  league_name: string;
+  synced_at: string | null;
+  standings: StandingRow[];
+}
+
+export interface LeagueSyncSummary {
+  created: number;
+  updated: number;
+  scored: number;
+  cancelled: number;
+  unchanged: number;
+  notes: string[];
+}
+
+export interface LeagueWithSync extends League {
+  sync: LeagueSyncSummary;
+}
+
+export interface LeaguePreview {
+  league_name: string;
+  teams: string[];
 }
 
 export interface Membership {

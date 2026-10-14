@@ -1,4 +1,4 @@
-import type { Membership, Role, Season, Team } from "../types";
+import type { League, LeaguePreview, LeagueWithSync, Membership, Role, Season, Team } from "../types";
 import { api, query } from "./client";
 
 // Teams
@@ -29,6 +29,15 @@ export const listSeasons = (teamId: number) => api.get<Season[]>(`/teams/${teamI
 export const getSeason = (seasonId: number) => api.get<Season>(`/seasons/${seasonId}/`);
 export const createSeason = (teamId: number, input: SeasonInput) =>
   api.post<Season>(`/teams/${teamId}/seasons/`, input);
+
+// League schedule (TeamSideline)
+export const getLeague = (seasonId: number) => api.get<League>(`/seasons/${seasonId}/league/`);
+export const previewLeague = (seasonId: number, url: string) =>
+  api.post<LeaguePreview>(`/seasons/${seasonId}/league/preview/`, { url });
+export const linkLeague = (seasonId: number, url: string, teamName: string) =>
+  api.put<LeagueWithSync>(`/seasons/${seasonId}/league/`, { url, team_name: teamName });
+export const syncLeague = (seasonId: number) => api.post<LeagueWithSync>(`/seasons/${seasonId}/league/sync/`);
+export const unlinkLeague = (seasonId: number) => api.delete<League>(`/seasons/${seasonId}/league/`);
 
 // Roster
 export interface MembershipInput {
