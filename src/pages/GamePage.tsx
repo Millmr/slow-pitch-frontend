@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, useParams } from "react-router";
-import { getAvailability, getGame, getLineup, recordResult, setAvailability, updateGame } from "../api/games";
+import { getAvailability, getBook, getGame, getLineup, recordResult, setAvailability, updateGame } from "../api/games";
 import AvailabilityPicker, { AvailabilityChip } from "../components/AvailabilityPicker";
 import BattingSlot from "../components/BattingSlot";
 import ErrorMessage from "../components/ErrorMessage";
@@ -8,7 +8,7 @@ import LoadingState from "../components/LoadingState";
 import { formatDayTime, playerName } from "../lib/format";
 import { useAction, useApi } from "../lib/useApi";
 import { useTrackTeam } from "../team/TeamContext";
-import type { Availability, AvailabilityEntry, AvailabilityStatus, Game } from "../types";
+import type { Availability, AvailabilityEntry, AvailabilityStatus, Book, Game } from "../types";
 
 export default function GamePage() {
   const gameId = Number(useParams().gameId);
@@ -16,6 +16,7 @@ export default function GamePage() {
   const { team, isManager, canKeepBook } = useTrackTeam(game.data?.team_id, game.data?.season);
   const availability = useApi(() => getAvailability(gameId), [gameId]);
   const lineup = useApi(() => getLineup(gameId), [gameId]);
+  const book = useApi(() => getBook(gameId), [gameId]);
 
   if (game.error) return <div className="page"><ErrorMessage error={game.error} onRetry={game.reload} /></div>;
   if (!game.data) return <div className="page"><LoadingState /></div>;
@@ -29,6 +30,7 @@ export default function GamePage() {
   return (
     <div className="page">
       <Scoreboard game={g} teamName={team?.name ?? "Us"} />
+      {g.status !== "cancelled" && <BookCallout game={g} book={book.data} canKeepBook={canKeepBook} />}
 
       {g.status === "scheduled" && availability.data?.my_membership_id && (
         <section className="section">
@@ -75,17 +77,6 @@ export default function GamePage() {
         )}
       </section>
 
-      {g.status !== "cancelled" && (
-        <section className="section">
-          <Link className="book-link" to={`/games/${g.id}/book`}>
-            <span className="book-link-title">{canKeepBook ? "Keep the book" : "Follow the book"}</span>
-            <span className="book-link-sub">
-              {canKeepBook ? "Record each at-bat as it happens" : "See every at-bat, live"}
-            </span>
-          </Link>
-        </section>
-      )}
-
       <section className="section">
         <div className="section-head">
           <h2 className="section-title">Box score</h2>
@@ -98,6 +89,38 @@ export default function GamePage() {
 
       {isManager && <GameStatusActions game={g} onSaved={reloadAll} />}
     </div>
+  );
+}
+
+function ordinal(n: number): string {
+  const suffix = n % 100 >= 11 && n % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[n % 10] ?? "th";
+  return `${n}${suffix}`;
+}
+
+/** The headline action on a game: keep (or follow) the book, with the live state once it's started. */
+function BookCallout({ game, book, canKeepBook }: { game: Game; book: Book | undefined; canKeepBook: boolean }) {
+  const plays = book?.plate_appearances.length ?? 0;
+  const live = plays > 0 && game.status === "scheduled";
+  let detail: string;
+  if (live && book) {
+    const outs = `${book.outs} ${book.outs === 1 ? "out" : "outs"}`;
+    detail = `${ordinal(book.inning)} inning, ${outs}.${book.next_batter ? ` ${book.next_batter.display_name} is up.` : ""}`;
+  } else if (plays > 0) {
+    detail = `${plays} plate appearances recorded. See the whole game.`;
+  } else {
+    detail = canKeepBook ? "Record each at-bat as it happens. Stats fill in on their own." : "Follow every at-bat once the game starts.";
+  }
+  return (
+    <Link to={`/games/${game.id}/book`} className={`book-callout${live ? " is-live" : ""}`}>
+      <img src="/softball.svg" alt="" width={44} height={44} className="book-callout-ball" />
+      <span className="book-callout-text">
+        <span className="book-callout-title">
+          {canKeepBook ? "Keep the book" : "Follow the book"}
+          {live && <span className="live-tag">Live</span>}
+        </span>
+        <span className="book-callout-detail">{detail}</span>
+      </span>
+    </Link>
   );
 }
 
