@@ -44,40 +44,40 @@ export default function LoginPage() {
     }
   }
 
+  const signingIn = mode === "signin";
+
   return (
     <div className="auth">
       <ThemeToggle className="auth-theme" />
-      {pending && <LoadingOverlay label={mode === "signin" ? "Signing in…" : "Creating your account…"} />}
-      <div className="auth-panel">
-        <div className="auth-brand">
-          <img src="/softball-worn.svg" alt="" width={132} height={132} className="auth-ball" />
-          <h1>Slow-Pitch</h1>
-          <p>Lineups, availability and stats for your rec team.</p>
-        </div>
+      {pending && <LoadingOverlay label={signingIn ? "Signing in…" : "Creating your account…"} />}
 
-        <div className="segmented" role="tablist" aria-label="Account">
-          <button type="button" role="tab" aria-selected={mode === "signin"} onClick={() => setMode("signin")}>
-            Sign in
-          </button>
-          <button type="button" role="tab" aria-selected={mode === "register"} onClick={() => setMode("register")}>
-            Create account
-          </button>
-        </div>
+      {/* The field: a chalk foul line with the team ball resting on it. */}
+      <div className="auth-field" aria-hidden="true">
+        <span className="auth-foul-line" />
+        <img src="/softball-worn.svg" alt="" className="auth-ball" />
+      </div>
 
-        <form className="form" onSubmit={handleSubmit}>
-          {mode === "register" && (
-            <div className="form-row">
-              <label className="field">
+      <main className="auth-main">
+        {/* The team's script logo, traced from their artwork and tinted by the theme. */}
+        <h1 className="auth-wordmark">
+          <span className="visually-hidden">Local Boys</span>
+        </h1>
+        <p className="auth-lede">{signingIn ? "Who's in this week?" : "Join your team."}</p>
+
+        <form className="auth-form" onSubmit={handleSubmit}>
+          {!signingIn && (
+            <div className="auth-row">
+              <label className="line-field">
                 <span>First name</span>
                 <input value={firstName} onChange={(e) => setFirstName(e.target.value)} autoComplete="given-name" />
               </label>
-              <label className="field">
+              <label className="line-field">
                 <span>Last name</span>
                 <input value={lastName} onChange={(e) => setLastName(e.target.value)} autoComplete="family-name" />
               </label>
             </div>
           )}
-          <label className="field">
+          <label className="line-field">
             <span>Username</span>
             <input
               value={username}
@@ -87,23 +87,38 @@ export default function LoginPage() {
               required
             />
           </label>
-          <label className="field">
+          <label className="line-field">
             <span>Password</span>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              autoComplete={mode === "signin" ? "current-password" : "new-password"}
+              autoComplete={signingIn ? "current-password" : "new-password"}
               required
             />
-            {mode === "register" && <small>At least 8 characters, not all numbers.</small>}
+            {!signingIn && <small>At least 8 characters, not all numbers.</small>}
           </label>
           <ErrorMessage error={error} />
-          <button type="submit" className="button button-primary button-block" disabled={pending}>
-            {mode === "signin" ? "Sign in" : "Create account"}
+          <button type="submit" className="auth-submit" disabled={pending}>
+            {signingIn ? "Sign in" : "Create account"}
           </button>
         </form>
-      </div>
+
+        <p className="auth-switch">
+          {signingIn ? "New here? " : "Already have an account? "}
+          <button
+            type="button"
+            className="link-button"
+            onClick={() => {
+              setMode(signingIn ? "register" : "signin");
+              setError(null);
+            }}
+          >
+            {signingIn ? "Create an account" : "Sign in"}
+          </button>
+        </p>
+        {!signingIn && <p className="auth-note">Once you're signed up, your manager adds you to the roster.</p>}
+      </main>
     </div>
   );
 }
