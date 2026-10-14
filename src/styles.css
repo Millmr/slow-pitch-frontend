@@ -1718,6 +1718,113 @@ a.list-main:hover {
   cursor: pointer;
 }
 
+/* ------------------------------------------------------------- league */
+
+.league-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+}
+
+.league-cta .section-title {
+  margin-bottom: 0;
+}
+
+.league-cta .hint {
+  margin-top: 4px;
+}
+
+.league-cta .button {
+  flex-shrink: 0;
+}
+
+/* Narrow enough for a phone without sideways scrolling: names wrap, numbers don't. */
+.standings th,
+.standings td {
+  padding: 10px 6px;
+}
+
+.standings .col-name {
+  position: static;
+  width: 100%;
+  white-space: normal;
+}
+
+.standings .col-rank {
+  width: 2rem;
+  padding-left: 10px;
+}
+
+.standings .col-streak {
+  padding-right: 12px;
+}
+
+.standings td.col-streak {
+  color: var(--muted);
+}
+
+.standings tr.is-us > * {
+  font-weight: 700;
+  background: rgb(226 236 79 / 0.25);
+}
+
+.standings tr.is-us .col-rank {
+  box-shadow: inset 4px 0 0 var(--ball);
+  color: var(--ink);
+}
+
+.league-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.league-meta a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.league-sync {
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+}
+
+.league-summary ul {
+  margin: 6px 0 0 18px;
+  font-size: 0.875rem;
+}
+
+.league-summary .link-button {
+  margin-top: 6px;
+  font-size: 0.875rem;
+}
+
+.league-unlink {
+  margin-top: 10px;
+  font-size: 0.8125rem;
+}
+
+.league-unlink .link-button {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+@media (max-width: 520px) {
+  .league-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 /* ------------------------------------------------------------- book */
 
 /* The game page's headline action: a filled card right under the scoreboard. */
@@ -2170,7 +2277,8 @@ button.play {
   border-color: rgb(76 201 133 / 0.35);
 }
 
-[data-theme="dark"] .stats-table td.is-sorted {
+[data-theme="dark"] .stats-table td.is-sorted,
+[data-theme="dark"] .standings tr.is-us > * {
   background: rgb(226 236 79 / 0.12);
 }
 

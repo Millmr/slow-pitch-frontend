@@ -160,7 +160,7 @@ export const api = {
   post: <T>(path: string, body?: unknown) => request<T>("POST", path, body ?? {}),
   put: <T>(path: string, body: unknown) => request<T>("PUT", path, body),
   patch: <T>(path: string, body: unknown) => request<T>("PATCH", path, body),
-  delete: (path: string) => request<void>("DELETE", path),
+  delete: <T = void>(path: string) => request<T>("DELETE", path),
   /** Download a file (such as an image) with the auth token attached. */
   blob: async (path: string) => (await send("GET", path, undefined, "*/*")).blob(),
 };
