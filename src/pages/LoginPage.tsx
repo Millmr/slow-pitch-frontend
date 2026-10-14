@@ -62,7 +62,8 @@ export default function LoginPage() {
         <h1 className="auth-wordmark">
           <span className="visually-hidden">Local Boys</span>
         </h1>
-        <p className="auth-lede">{signingIn ? "Who's in this week?" : "Join your team."}</p>
+        <p className="auth-kicker">Slow-Pitch Organizer</p>
+        {!signingIn && <p className="auth-lede">Join your team.</p>}
 
         <form className="auth-form" onSubmit={handleSubmit}>
           {!signingIn && (
