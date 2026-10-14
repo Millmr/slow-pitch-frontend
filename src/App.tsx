@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router";
 import AppLayout from "./components/AppLayout";
 import RequireAuth from "./components/RequireAuth";
+import BookPage from "./pages/BookPage";
 import DashboardPage from "./pages/DashboardPage";
 import GamePage from "./pages/GamePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/games/:gameId" element={<GamePage />} />
         <Route path="/games/:gameId/lineup" element={<LineupPage />} />
         <Route path="/games/:gameId/stats" element={<StatsPage />} />
+        <Route path="/games/:gameId/book" element={<BookPage />} />
         <Route path="/players/:membershipId" element={<PlayerPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

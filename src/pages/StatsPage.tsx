@@ -19,6 +19,7 @@ const COUNTERS: { key: Counter; label: string }[] = [
   { key: "triples", label: "3B" },
   { key: "home_runs", label: "HR" },
   { key: "walks", label: "BB" },
+  { key: "sac_flies", label: "SF" },
 ];
 
 const blank = (membershipId: number): StatInput => ({
@@ -29,6 +30,7 @@ const blank = (membershipId: number): StatInput => ({
   triples: 0,
   home_runs: 0,
   walks: 0,
+  sac_flies: 0,
 });
 
 const hitsOf = (s: StatInput) => s.singles + s.doubles + s.triples + s.home_runs;
@@ -61,7 +63,13 @@ export default function StatsPage() {
             : "These stats count toward the season once the final score is saved."}
         </p>
       )}
-      {isManager && g.status !== "cancelled" ? (
+      {stats.data.from_book && (
+        <p className="notice">
+          This game is scored in the book, so these numbers update from it.{" "}
+          <Link to={`/games/${g.id}/book`}>Open the book</Link> to fix a play.
+        </p>
+      )}
+      {isManager && g.status !== "cancelled" && !stats.data.from_book ? (
         <StatsEditor gameId={g.id} teamId={g.team_id} seasonId={g.season} saved={stats.data.players} onSaved={stats.setData} />
       ) : (
         <BoxScore lines={stats.data.players} />
@@ -84,6 +92,7 @@ function BoxScore({ lines }: { lines: StatLine[] }) {
             <th scope="col">3B</th>
             <th scope="col">HR</th>
             <th scope="col">BB</th>
+            <th scope="col">SF</th>
             <th scope="col">AVG</th>
           </tr>
         </thead>
@@ -97,6 +106,7 @@ function BoxScore({ lines }: { lines: StatLine[] }) {
               <td>{l.triples}</td>
               <td>{l.home_runs}</td>
               <td>{l.walks}</td>
+              <td>{l.sac_flies ?? 0}</td>
               <td>{l.batting_average_display}</td>
             </tr>
           ))}
@@ -135,6 +145,7 @@ function StatsEditor({ gameId, teamId, seasonId, saved, onSaved }: EditorProps) 
           triples: l.triples,
           home_runs: l.home_runs,
           walks: l.walks,
+          sac_flies: l.sac_flies ?? 0,
         })),
       );
     } else {

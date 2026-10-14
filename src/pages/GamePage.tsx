@@ -13,7 +13,7 @@ import type { Availability, AvailabilityEntry, AvailabilityStatus, Game } from "
 export default function GamePage() {
   const gameId = Number(useParams().gameId);
   const game = useApi(() => getGame(gameId), [gameId]);
-  const { team, isManager } = useTrackTeam(game.data?.team_id, game.data?.season);
+  const { team, isManager, canKeepBook } = useTrackTeam(game.data?.team_id, game.data?.season);
   const availability = useApi(() => getAvailability(gameId), [gameId]);
   const lineup = useApi(() => getLineup(gameId), [gameId]);
 
@@ -74,6 +74,17 @@ export default function GamePage() {
           />
         )}
       </section>
+
+      {g.status !== "cancelled" && (
+        <section className="section">
+          <Link className="book-link" to={`/games/${g.id}/book`}>
+            <span className="book-link-title">{canKeepBook ? "Keep the book" : "Follow the book"}</span>
+            <span className="book-link-sub">
+              {canKeepBook ? "Record each at-bat as it happens" : "See every at-bat, live"}
+            </span>
+          </Link>
+        </section>
+      )}
 
       <section className="section">
         <div className="section-head">
