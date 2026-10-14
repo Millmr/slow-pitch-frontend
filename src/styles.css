@@ -918,8 +918,19 @@ a.list-main:hover {
   background: var(--ink);
 }
 
+/* Small caps under the script, like the line under a team name on a jersey. */
+.auth-kicker {
+  margin-top: 6px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 .auth-lede {
-  margin-top: 10px;
+  margin-top: 22px;
   font-size: 1.125rem;
   color: var(--muted);
 }
@@ -1018,6 +1029,11 @@ a.list-main:hover {
   .auth-wordmark {
     width: 400px;
     margin-left: -10px;
+  }
+
+  .auth-kicker {
+    font-size: 0.9375rem;
+    letter-spacing: 0.22em;
   }
 
   /* A shallower line that passes under the form and runs behind the ball. */
