@@ -14,6 +14,8 @@ interface TeamValue {
   seasons: Season[];
   season: Season | null;
   isManager: boolean;
+  /** Managers and scorekeepers can record plays in the book. */
+  canKeepBook: boolean;
   loading: boolean;
   error: ApiError | null;
   selectTeam: (teamId: number) => void;
@@ -117,6 +119,7 @@ export function TeamProvider({ children }: { children: ReactNode }) {
       seasons: currentSeasons,
       season: currentSeasons.find((s) => s.id === seasonId) ?? null,
       isManager: currentTeam?.my_role === "manager",
+      canKeepBook: currentTeam?.my_role === "manager" || currentTeam?.my_role === "scorekeeper",
       loading,
       error,
       selectTeam,
@@ -150,5 +153,5 @@ export function useTrackTeam(teamId: number | null | undefined, seasonId?: numbe
   }, [seasonId, selectSeason]);
 
   if (!teamId || value.team?.id === teamId) return value;
-  return { ...value, team: null, seasons: [], season: null, isManager: false, loading: true };
+  return { ...value, team: null, seasons: [], season: null, isManager: false, canKeepBook: false, loading: true };
 }

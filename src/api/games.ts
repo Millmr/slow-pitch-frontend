@@ -1,4 +1,4 @@
-import type { Availability, AvailabilityStatus, Game, GameStatus, Lineup, Position } from "../types";
+import type { Availability, AvailabilityStatus, Book, Game, GameStatus, Lineup, PlateResult, Position } from "../types";
 import { api, query } from "./client";
 
 export interface GameInput {
@@ -35,3 +35,15 @@ export interface LineupSpotInput {
 export const getLineup = (gameId: number) => api.get<Lineup>(`/games/${gameId}/lineup/`);
 export const saveLineup = (gameId: number, players: LineupSpotInput[]) =>
   api.put<Lineup>(`/games/${gameId}/lineup/`, { players });
+
+// Book (live scoring)
+export const getBook = (gameId: number) => api.get<Book>(`/games/${gameId}/book/`);
+export const recordPlay = (gameId: number, result: PlateResult, options: { membershipId?: number; inning?: number } = {}) =>
+  api.post<Book>(`/games/${gameId}/book/`, {
+    result,
+    ...(options.membershipId ? { membership_id: options.membershipId } : {}),
+    ...(options.inning ? { inning: options.inning } : {}),
+  });
+export const updatePlay = (gameId: number, playId: number, changes: { result?: PlateResult; membership_id?: number; inning?: number }) =>
+  api.patch<Book>(`/games/${gameId}/book/${playId}/`, changes);
+export const deletePlay = (gameId: number, playId: number) => api.delete(`/games/${gameId}/book/${playId}/`);

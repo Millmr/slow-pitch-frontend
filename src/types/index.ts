@@ -1,6 +1,6 @@
 // Shapes returned by the Django API (see the backend README for endpoints).
 
-export type Role = "manager" | "player";
+export type Role = "manager" | "scorekeeper" | "player";
 export type GameStatus = "scheduled" | "completed" | "cancelled";
 export type GameResult = "W" | "L" | "T";
 export type AvailabilityStatus = "yes" | "no" | "unsure";
@@ -111,6 +111,7 @@ export interface StatLine {
   triples: number;
   home_runs: number;
   walks: number;
+  sac_flies: number;
   total_bases: number;
   batting_average: number | null;
   on_base_percentage: number | null;
@@ -125,6 +126,8 @@ export interface GameStats {
   game: number;
   status: GameStatus;
   counts_toward_season: boolean;
+  /** True when the game was scored in the book; the lines are built from it. */
+  from_book: boolean;
   players: StatLine[];
 }
 
@@ -172,4 +175,35 @@ export interface StatInput {
   triples: number;
   home_runs: number;
   walks: number;
+  sac_flies: number;
+}
+
+export const PLATE_RESULTS = ["1B", "2B", "3B", "HR", "BB", "SF", "OUT"] as const;
+export type PlateResult = (typeof PLATE_RESULTS)[number];
+
+export interface BookPlayer {
+  membership_id: number;
+  display_name: string;
+  jersey_number: number | null;
+  batting_order?: number;
+}
+
+export interface PlateAppearance extends BookPlayer {
+  id: number;
+  sequence: number;
+  inning: number;
+  result: PlateResult;
+}
+
+export interface Book {
+  game: number;
+  game_status: GameStatus;
+  counts_toward_season: boolean;
+  can_edit: boolean;
+  inning: number;
+  outs: number;
+  next_batter: BookPlayer | null;
+  on_deck: BookPlayer | null;
+  lineup: BookPlayer[];
+  plate_appearances: PlateAppearance[];
 }

@@ -230,9 +230,10 @@ function RosterRow({ member, status, canEdit, editing, onEdit, onSaved }: RowPro
           <Link to={`/players/${member.id}`} className="roster-name">
             {member.display_name}
           </Link>
-          {(member.role === "manager" || member.is_substitute || !member.account) && (
+          {(member.role !== "player" || member.is_substitute || !member.account) && (
             <span className="roster-tags">
               {member.role === "manager" && <span className="tag">Manager</span>}
+              {member.role === "scorekeeper" && <span className="tag">Scorekeeper</span>}
               {member.is_substitute && <span className="tag">Sub</span>}
               {!member.account && <span className="tag tag-quiet">No account</span>}
             </span>
@@ -291,6 +292,7 @@ function EditMember({ member, onSaved }: { member: Membership; onSaved: () => vo
           <span>Role</span>
           <select value={role} onChange={(e) => setRole(e.target.value as Role)}>
             <option value="player">Player</option>
+            <option value="scorekeeper">Scorekeeper (keeps the book)</option>
             <option value="manager">Manager</option>
           </select>
         </label>
