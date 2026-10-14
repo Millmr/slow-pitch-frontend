@@ -854,45 +854,189 @@ a.list-main:hover {
 
 /* ------------------------------------------------------------- sign in */
 
+/* No card: a wordmark and a chalk-lined form on the field, with the team
+   ball resting on a foul line that runs off the corner of the screen. */
 .auth {
-  display: grid;
-  place-items: center;
+  position: relative;
   min-height: 100dvh;
-  padding: 24px var(--gutter);
-  background: var(--brand);
-}
-
-.auth-panel {
-  width: 100%;
-  max-width: 400px;
-  padding: 28px 24px;
-  border-radius: 16px;
+  overflow: hidden;
   background: var(--page);
+  --chalk-line: rgb(0 0 0 / 0.09);
 }
 
-.auth-brand {
-  margin-bottom: 20px;
-  text-align: center;
+[data-theme="dark"] .auth {
+  --chalk-line: rgb(255 255 255 / 0.1);
 }
 
+.auth-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.auth-foul-line {
+  display: none;
+  position: absolute;
+  left: -10%;
+  bottom: 14%;
+  width: 140%;
+  height: 10px;
+  background: var(--chalk-line);
+  transform: rotate(-24deg);
+  transform-origin: left center;
+}
+
+/* On phones the ball sits in the top corner beside the logo, half off the edge. */
 .auth-ball {
-  display: block;
-  margin: 0 auto 4px;
-  filter: drop-shadow(0 8px 12px rgb(27 31 36 / 0.35));
+  position: absolute;
+  top: calc(64px + env(safe-area-inset-top));
+  right: -40px;
+  width: 160px;
+  height: 160px;
+  transform: rotate(-14deg);
+  filter: drop-shadow(0 18px 24px rgb(0 0 0 / 0.35));
 }
 
-.auth-brand h1 {
+.auth-main {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  padding: calc(72px + env(safe-area-inset-top)) var(--gutter) 48px;
+}
+
+/* The Local Boys script, drawn as a mask so it takes the theme color. */
+.auth-wordmark {
+  width: min(250px, 62vw);
+  aspect-ratio: 1103 / 445;
+  margin-left: -6px;
+  background: var(--ball);
+  -webkit-mask: url("/local-boys.svg") no-repeat center / contain;
+  mask: url("/local-boys.svg") no-repeat center / contain;
+}
+
+[data-theme="light"] .auth-wordmark {
+  background: var(--ink);
+}
+
+.auth-lede {
+  margin-top: 10px;
+  font-size: 1.125rem;
+  color: var(--muted);
+}
+
+.auth-form {
+  display: grid;
+  gap: 22px;
+  margin-top: 36px;
+}
+
+.auth-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Inputs drawn as chalk lines rather than boxes. */
+.line-field {
+  display: grid;
+  gap: 2px;
+}
+
+.line-field > span {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.line-field input {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 2px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  font-size: 1.125rem;
+}
+
+.line-field input:focus {
+  outline: none;
+  border-bottom-color: var(--ball);
+}
+
+.line-field small {
+  margin-top: 4px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.auth-submit {
+  min-height: 52px;
   margin-top: 6px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--button-bg);
+  color: var(--button-ink);
   font-family: var(--display);
   font-weight: 700;
-  font-size: 2.5rem;
-  line-height: 1;
+  font-size: 1.375rem;
+  cursor: pointer;
+}
+
+.auth-submit:not(:disabled):hover {
+  filter: brightness(0.92);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.auth-switch {
+  margin-top: 20px;
+  color: var(--muted);
+}
+
+.auth-switch .link-button {
   color: var(--accent);
 }
 
-.auth-brand p {
+.auth-note {
   margin-top: 6px;
+  font-size: 0.875rem;
   color: var(--muted);
+}
+
+@media (min-width: 760px) {
+  .auth-main {
+    max-width: 420px;
+    margin-left: max(6vw, 32px);
+    padding-top: 14vh;
+    padding-bottom: 64px;
+  }
+
+  .auth-wordmark {
+    width: 400px;
+    margin-left: -10px;
+  }
+
+  /* A shallower line that passes under the form and runs behind the ball. */
+  .auth-foul-line {
+    display: block;
+    left: -5%;
+    bottom: 0;
+    width: 120%;
+    transform: rotate(-12deg);
+  }
+
+  .auth-ball {
+    bottom: auto;
+    top: 50%;
+    width: min(42vw, 520px);
+    height: min(42vw, 520px);
+    right: max(-4vw, -60px);
+    transform: translateY(-50%) rotate(-14deg);
+  }
 }
 
 .segmented,
@@ -2033,7 +2177,7 @@ button.play {
 }
 
 [data-theme="dark"] .auth-ball {
-  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 0.55));
+  filter: drop-shadow(0 18px 28px rgb(0 0 0 / 0.6));
 }
 
 /* ------------------------------------------------------------- theme switch */
@@ -2055,6 +2199,10 @@ button.play {
   background: rgb(255 255 255 / 0.1);
 }
 
+.auth-theme:hover {
+  background: var(--brand-soft);
+}
+
 .theme-toggle svg {
   width: 20px;
   height: 20px;
@@ -2062,6 +2210,8 @@ button.play {
 
 .auth-theme {
   position: fixed;
+  z-index: 2;
+  color: var(--ink);
   top: calc(12px + env(safe-area-inset-top));
   right: 12px;
 }
