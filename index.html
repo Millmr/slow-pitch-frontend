@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#2a3037" />
+    <meta name="theme-color" content="#11161c" />
     <link rel="icon" type="image/svg+xml" href="/softball.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,6 +12,15 @@
       rel="stylesheet"
     />
     <title>Slow-Pitch</title>
+    <script>
+      // Dark is the default; apply a saved "light" choice before first paint.
+      (function () {
+        var theme = "dark";
+        try { if (localStorage.getItem("slowpitch.theme") === "light") theme = "light"; } catch (e) {}
+        document.documentElement.setAttribute("data-theme", theme);
+        if (theme === "light") document.querySelector('meta[name="theme-color"]').setAttribute("content", "#2a3037");
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -21,6 +21,13 @@
   --in: #1f7a4d;
   --in-soft: #e3f3ea;
 
+  /* Roles: page background, accent text/links, and the main button. */
+  --page: var(--chalk);
+  --accent: var(--brand);
+  --button-bg: var(--brand);
+  --button-ink: var(--chalk);
+  --ball-ink: #1a1d21;
+
   --display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
   --body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
 
@@ -34,7 +41,7 @@
   font-size: 16px;
   line-height: 1.5;
   color: var(--ink);
-  background: var(--chalk);
+  background: var(--page);
   -webkit-text-size-adjust: 100%;
 }
 
@@ -47,7 +54,7 @@
 body {
   margin: 0;
   min-height: 100dvh;
-  background: var(--chalk);
+  background: var(--page);
 }
 
 h1,
@@ -68,7 +75,7 @@ ol {
 }
 
 a {
-  color: var(--brand);
+  color: var(--accent);
   text-underline-offset: 3px;
 }
 
@@ -227,8 +234,8 @@ select {
 }
 
 .tab.active {
-  color: var(--brand);
-  border-top-color: var(--brand);
+  color: var(--accent);
+  border-top-color: var(--accent);
 }
 
 .content {
@@ -453,7 +460,7 @@ select {
 .notice {
   margin: 12px 0;
   padding: 10px 14px;
-  border-left: 4px solid var(--brand);
+  border-left: 4px solid var(--accent);
   background: var(--brand-soft);
 }
 
@@ -572,7 +579,7 @@ a.list-main:hover {
   padding: 1px 7px;
   border-radius: 999px;
   background: var(--brand-soft);
-  color: var(--brand);
+  color: var(--accent);
   font-size: 0.75rem;
   font-weight: 600;
   vertical-align: 2px;
@@ -646,7 +653,7 @@ a.list-main:hover {
   font-weight: 700;
   font-size: 1.375rem;
   text-align: center;
-  color: var(--brand);
+  color: var(--accent);
 }
 
 .is-inactive {
@@ -662,7 +669,7 @@ a.list-main:hover {
   font-family: var(--display);
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--brand);
+  color: var(--accent);
 }
 
 /* ------------------------------------------------------------- buttons */
@@ -688,22 +695,22 @@ a.list-main:hover {
 
 
 .button-primary {
-  background: var(--brand);
-  color: var(--chalk);
+  background: var(--button-bg);
+  color: var(--button-ink);
 }
 
 .button-primary:not(:disabled):hover {
-  background: var(--brand-deep);
+  filter: brightness(0.88);
 }
 
 .button-quiet {
   background: var(--paper);
   border-color: var(--line);
-  color: var(--brand);
+  color: var(--accent);
 }
 
 .button-quiet:not(:disabled):hover {
-  border-color: var(--brand);
+  border-color: var(--accent);
 }
 
 .button-danger {
@@ -799,7 +806,7 @@ a.list-main:hover {
 
 .field input:focus,
 .field select:focus {
-  border-color: var(--brand);
+  border-color: var(--accent);
 }
 
 .field-inline {
@@ -838,7 +845,7 @@ a.list-main:hover {
 .check input {
   width: 20px;
   height: 20px;
-  accent-color: var(--brand);
+  accent-color: var(--accent);
 }
 
 .sort-picker {
@@ -860,7 +867,7 @@ a.list-main:hover {
   max-width: 400px;
   padding: 28px 24px;
   border-radius: 16px;
-  background: var(--chalk);
+  background: var(--page);
 }
 
 .auth-brand {
@@ -880,7 +887,7 @@ a.list-main:hover {
   font-weight: 700;
   font-size: 2.5rem;
   line-height: 1;
-  color: var(--brand);
+  color: var(--accent);
 }
 
 .auth-brand p {
@@ -916,7 +923,7 @@ a.list-main:hover {
 
 .segmented button[aria-selected="true"] {
   background: var(--paper);
-  color: var(--brand);
+  color: var(--accent);
   box-shadow: 0 1px 2px rgb(27 31 36 / 0.15);
 }
 
@@ -972,7 +979,7 @@ a.list-main:hover {
   font-family: var(--display);
   font-weight: 600;
   font-size: 1.125rem;
-  color: var(--brand);
+  color: var(--accent);
 }
 
 .next-game-opponent {
@@ -1119,7 +1126,7 @@ a.list-main:hover {
   font-family: var(--display);
   font-weight: 700;
   font-size: 1.25rem;
-  color: var(--ink);
+  color: var(--ball-ink);
   overflow: hidden;
 }
 
@@ -1157,7 +1164,7 @@ a.list-main:hover {
   font-family: var(--display);
   font-weight: 700;
   font-size: 1.25rem;
-  color: var(--brand);
+  color: var(--accent);
 }
 
 .position-select {
@@ -1186,7 +1193,7 @@ a.list-main:hover {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--paper);
-  color: var(--brand);
+  color: var(--accent);
   cursor: pointer;
 }
 
@@ -1249,7 +1256,7 @@ a.list-main:hover {
   font-family: var(--display);
   font-weight: 600;
   font-size: 1.125rem;
-  color: var(--brand);
+  color: var(--accent);
 }
 
 .stat-card-grid {
@@ -1292,7 +1299,7 @@ a.list-main:hover {
   flex-shrink: 0;
   border: 0;
   background: var(--brand-soft);
-  color: var(--brand);
+  color: var(--accent);
   font-size: 1.25rem;
   font-weight: 600;
   cursor: pointer;
@@ -1352,7 +1359,7 @@ a.list-main:hover {
   font-weight: 600;
   font-size: 1rem;
   color: var(--muted);
-  background: var(--chalk);
+  background: var(--page);
 }
 
 .stats-table .col-name {
@@ -1364,7 +1371,7 @@ a.list-main:hover {
 }
 
 .stats-table thead .col-name {
-  background: var(--chalk);
+  background: var(--page);
 }
 
 .stats-table .col-rank {
@@ -1383,7 +1390,7 @@ a.list-main:hover {
 }
 
 .leaderboard thead button.is-sorted {
-  color: var(--brand);
+  color: var(--accent);
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
@@ -1543,7 +1550,7 @@ a.list-main:hover {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--brand);
+  color: var(--accent);
   font: inherit;
   font-weight: 600;
   text-decoration: underline;
@@ -1566,7 +1573,7 @@ a.list-main:hover {
 }
 
 .book-link:hover {
-  border-color: var(--brand);
+  border-color: var(--accent);
   border-left-color: var(--ball-edge);
 }
 
@@ -1597,6 +1604,7 @@ a.list-main:hover {
   font-weight: 700;
   font-size: 1.625rem;
   line-height: 1.1;
+  white-space: nowrap;
 }
 
 .book-up {
@@ -1672,7 +1680,7 @@ a.list-main:hover {
   background: var(--brand-soft);
   font-family: var(--display);
   font-weight: 700;
-  color: var(--brand);
+  color: var(--accent);
 }
 
 .now-batting-name {
@@ -1764,13 +1772,14 @@ a.list-main:hover {
 .result-button-OUT {
   grid-column: 1 / -1;
   min-height: 64px;
-  border-color: var(--brand);
-  background: var(--brand);
-  color: var(--chalk);
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+  color: var(--button-ink);
 }
 
 .result-button-OUT .result-name {
-  color: rgb(245 246 246 / 0.75);
+  color: var(--button-ink);
+  opacity: 0.75;
 }
 
 .scorer-footer {
@@ -1804,7 +1813,7 @@ a.list-main:hover {
   font-family: var(--display);
   font-weight: 600;
   color: var(--muted);
-  background: var(--chalk);
+  background: var(--page);
 }
 
 .book-grid .col-name {
@@ -1817,7 +1826,7 @@ a.list-main:hover {
 }
 
 .book-grid thead .col-name {
-  background: var(--chalk);
+  background: var(--page);
 }
 
 .book-grid tbody tr:last-child > * {
@@ -1870,7 +1879,7 @@ button.play {
 }
 
 .play.is-selected {
-  border-color: var(--brand);
+  border-color: var(--accent);
   box-shadow: 0 0 0 2px var(--ball);
 }
 
@@ -1891,4 +1900,119 @@ button.play {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+
+/* ------------------------------------------------------------- dark: slate */
+
+/* Set on <html> by the theme switch (and before first paint in index.html). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #1a1f25;
+  --paper: #232a32;
+  --line: #36414c;
+  --ink: #e6eaee;
+  --muted: #a3adb8;
+  --brand: #11161c;
+  --brand-deep: #11161c;
+  --brand-soft: rgb(255 255 255 / 0.07);
+  --chalk: #f5f6f6;
+  --accent: #ffffff;
+  --button-bg: #f5f6f6;
+  --button-ink: #11161c;
+  --in: #4cc985;
+  --in-soft: rgb(76 201 133 / 0.16);
+  --stitch: #ff6b61;
+  --stitch-soft: rgb(255 107 97 / 0.16);
+  --maybe: #e8c84a;
+  --maybe-soft: rgb(232 200 74 / 0.16);
+}
+
+[data-theme="dark"] .button-quiet {
+  background: transparent;
+}
+
+[data-theme="dark"] .button-danger {
+  background: transparent;
+  border-color: rgb(255 107 97 / 0.45);
+}
+
+[data-theme="dark"] .button-primary:not(:disabled):hover {
+  filter: brightness(0.9);
+}
+
+[data-theme="dark"] .error {
+  color: #ffb4ae;
+}
+
+[data-theme="dark"] .notice-warn {
+  border-left-color: var(--maybe);
+}
+
+[data-theme="dark"] .scoreboard,
+[data-theme="dark"] .week-bar,
+[data-theme="dark"] .book-status {
+  border: 1px solid var(--line);
+}
+
+[data-theme="dark"] .result-button-1B,
+[data-theme="dark"] .result-button-2B,
+[data-theme="dark"] .result-button-3B,
+[data-theme="dark"] .result-button-HR {
+  border-color: rgb(76 201 133 / 0.35);
+}
+
+[data-theme="dark"] .stats-table td.is-sorted {
+  background: rgb(226 236 79 / 0.12);
+}
+
+/* Logos are designed for light backgrounds; keep them on a white tile. */
+[data-theme="dark"] .team-logo.has-logo {
+  background: #ffffff;
+}
+
+[data-theme="dark"] .tab.active {
+  border-top-color: var(--ball);
+}
+
+[data-theme="dark"] .availability-yes[aria-checked="true"],
+[data-theme="dark"] .availability-no[aria-checked="true"] {
+  color: #0e1216;
+}
+
+[data-theme="dark"] .sticky-actions .button {
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.5);
+}
+
+[data-theme="dark"] .auth-ball {
+  filter: drop-shadow(0 8px 14px rgb(0 0 0 / 0.55));
+}
+
+/* ------------------------------------------------------------- theme switch */
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--chalk);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.auth-theme {
+  position: fixed;
+  top: calc(12px + env(safe-area-inset-top));
+  right: 12px;
 }

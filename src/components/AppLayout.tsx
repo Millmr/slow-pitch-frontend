@@ -2,6 +2,7 @@ import { NavLink, Outlet, useNavigate } from "react-router";
 import { useAuth } from "../auth/AuthContext";
 import { useTeam } from "../team/TeamContext";
 import TeamLogo from "./TeamLogo";
+import ThemeToggle from "./ThemeToggle";
 
 export default function AppLayout() {
   const { user, signOut } = useAuth();
@@ -55,6 +56,7 @@ export default function AppLayout() {
               </label>
             )}
             {seasons.length === 1 && season && <span className="season-name">{season.name}</span>}
+            <ThemeToggle />
             <button type="button" className="signout" onClick={handleSignOut} title={user ? `Signed in as ${user.username}` : undefined}>
               Sign out
             </button>
